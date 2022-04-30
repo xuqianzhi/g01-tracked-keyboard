@@ -1,6 +1,4 @@
 import {useState, useEffect, useRef} from 'react'
-import randomWords from 'random-words'
-const NUMB_OF_WORDS = 200
 
 // SENTENCES TO DISPLAY, pulled from mem4.txt on https://www.keithv.com/software/enronmobile/mem4.txt 
 const sentences =[
@@ -33,8 +31,6 @@ function App() {
   }, [status])
 
   function generateWords() {
-    var arr = new Array(NUMB_OF_WORDS).fill(null).map(() => randomWords())
-    console.log("arr is", arr)
     // flatten on second dimension
     // if you want to preserve individual "sentences", do not flatten 
     console.log("sentences are", sentences.flat(2))
@@ -55,14 +51,15 @@ function App() {
     if (status !== 'started') {
       setStatus('started')
       let interval = setInterval(() => {
-        setCountDown((prevCountdown) => {
-          if (prevCountdown === 0) {
+        setCountDown((prevCountDown) => {
+          console.log("currcharidx is", currCharIndex)
+          if (prevCountDown === 0) {
             clearInterval(interval)
             setStatus('finished')
             setCurrInput("")
             return SECONDS
           } else {
-            return prevCountdown - 1
+            return prevCountDown - 1
           }
         }  )
       } ,  1000 )
