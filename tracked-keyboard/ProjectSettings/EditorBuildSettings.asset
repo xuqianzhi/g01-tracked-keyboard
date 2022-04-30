@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1045 &1
+EditorBuildSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Scenes:
+  - enabled: 0
+    path: Assets/Scenes/Scene.unity
+    guid: d0066db218c404eb597973566abd9d4a
+  - enabled: 0
+    path: Assets/Scenes/TrackedKeyboard 1.unity
+    guid: 9dae5e70705fb4254927c495043fc64f
+  m_configObjects:
+    Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 9a1d75ae274d8410da72f842ea85e513, type: 2}
+    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: cbc283f7bf6c34ce6902e013b7044725, type: 2}
+    xr.sdk.mock-hmd.settings: {fileID: 11400000, guid: ad9fbf1d641ef4cfeabd58705bb83ba5, type: 2}
