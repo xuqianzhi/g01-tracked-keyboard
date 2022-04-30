@@ -1,6 +1,13 @@
 import {useState, useEffect, useRef} from 'react'
 import randomWords from 'random-words'
 const NUMB_OF_WORDS = 200
+
+// SENTENCES TO DISPLAY, pulled from mem4.txt on https://www.keithv.com/software/enronmobile/mem4.txt 
+const sentences =[
+  ["you", "have", "a", "nice", "holiday", "too"],
+  [ "we", "need", "to", "talk", "about", "this", "month"]
+]
+
 const SECONDS = 60
 
 function App() {
@@ -26,7 +33,12 @@ function App() {
   }, [status])
 
   function generateWords() {
-    return new Array(NUMB_OF_WORDS).fill(null).map(() => randomWords())
+    var arr = new Array(NUMB_OF_WORDS).fill(null).map(() => randomWords())
+    console.log("arr is", arr)
+    // flatten on second dimension
+    // if you want to preserve individual "sentences", do not flatten 
+    console.log("sentences are", sentences.flat(2))
+    return sentences.flat(2);
   }
 
   function start() {
