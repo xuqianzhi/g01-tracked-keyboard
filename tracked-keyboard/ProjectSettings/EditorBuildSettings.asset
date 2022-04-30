@@ -6,9 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 0
-    path: 
-    guid: d0066db218c404eb597973566abd9d4a
-  - enabled: 0
     path: Assets/Scenes/TrackedKeyboard 1.unity
     guid: 9dae5e70705fb4254927c495043fc64f
   - enabled: 1

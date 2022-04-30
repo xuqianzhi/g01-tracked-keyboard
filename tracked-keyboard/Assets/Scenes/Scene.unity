@@ -154,6 +154,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textInputField: {fileID: 505004194}
   primaryLabel: {fileID: 799799132}
+  secondaryLabel: {fileID: 528999907}
 --- !u!4 &111732352
 Transform:
   m_ObjectHideFlags: 0

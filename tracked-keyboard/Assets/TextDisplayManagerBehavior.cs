@@ -53,12 +53,31 @@ public class TextDisplayManagerBehavior : MonoBehaviour
     {
         if (Event.current.Equals(Event.KeyboardEvent("return")))
         {
+            // TODO: reset sentence
             textInputField.Select();
             textInputField.ActivateInputField();
+            wordPointer = 0;
+            correctWordCount = 0;
             didSessionBegin = true;
+            primaryLabel.color = Color.black;
             primaryLabel.text = sentence[0];
+            secondaryLabel.text = String.Empty;
             timer.Start();
         }
+    }
+    
+    void UserCompleteSession()
+    {
+        didSessionBegin = false;
+        textInputField.DeactivateInputField();
+        
+        timer.Stop();
+        Double interval = timer.Elapsed.TotalSeconds;
+        Double wpm = Math.Round(correctWordCount / interval * 60, 2);
+        Double accuracy = Math.Round((Double)correctWordCount / sentence.Length, 4) * 100 ;
+        primaryLabel.text = "Press enter for a new session!";
+        primaryLabel.color = Color.green;
+        secondaryLabel.text = $"wpm: {wpm}, accuracy: {accuracy}%";
     }
 
     void UpdateInputFieldColor(WordInputState state)
@@ -98,13 +117,7 @@ public class TextDisplayManagerBehavior : MonoBehaviour
             if (wordPointer >= sentence.Length)
             {
                 // session completed
-                timer.Stop();
-                Double interval = timer.Elapsed.TotalSeconds;
-                Double wpm = Math.Round(correctWordCount / interval * 60, 2);
-                Double accuracy = Math.Round((Double)correctWordCount / sentence.Length, 4) * 100 ;
-                primaryLabel.text = "Session Complete!";
-                primaryLabel.color = Color.green;
-                secondaryLabel.text = $"wpm: {wpm}, accuracy: {accuracy}%";
+                UserCompleteSession();
             }
             else
             {
