@@ -5,11 +5,11 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: Assets/Scenes/TrackedKeyboard 1.unity
-    guid: 9dae5e70705fb4254927c495043fc64f
   - enabled: 1
-    path: Assets/Scenes/Scene.unity
+    path: Assets/Scenes/HomeScene.unity
+    guid: 10aaf9a3bd8e545c0950fd23a703280e
+  - enabled: 1
+    path: Assets/Scenes/BaselineScene.unity
     guid: 0a3c947db76164677ba5a4e84d228ab2
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 9a1d75ae274d8410da72f842ea85e513, type: 2}
