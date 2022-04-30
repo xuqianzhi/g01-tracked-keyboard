@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 
@@ -62,6 +63,8 @@ public class TextDisplayManagerBehavior : MonoBehaviour
             primaryLabel.color = Color.black;
             primaryLabel.text = sentence[0];
             secondaryLabel.text = String.Empty;
+            
+            timer.Reset();
             timer.Start();
         }
     }
@@ -69,6 +72,7 @@ public class TextDisplayManagerBehavior : MonoBehaviour
     void UserCompleteSession()
     {
         didSessionBegin = false;
+        EventSystem.current.SetSelectedGameObject(null);
         textInputField.DeactivateInputField();
         
         timer.Stop();
@@ -89,7 +93,7 @@ public class TextDisplayManagerBehavior : MonoBehaviour
         }
         else
         {
-            // update text color to normal white
+            // update text color to normal black
             textInputField.textComponent.color = Color.black;
         }
     }
@@ -99,8 +103,7 @@ public class TextDisplayManagerBehavior : MonoBehaviour
         if (state == WordInputState.SessionCompleted) return;
         
         Event currEvent = Event.current;
-        if (state != WordInputState.Empty &&
-            (currEvent.Equals(Event.KeyboardEvent("return")) || currEvent.Equals(Event.KeyboardEvent("space"))))
+        if (state != WordInputState.Empty && currEvent.Equals(Event.KeyboardEvent("space")))
         {
             // user finished typing the current word
             
