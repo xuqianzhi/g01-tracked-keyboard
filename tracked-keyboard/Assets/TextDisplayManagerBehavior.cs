@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 
@@ -52,7 +53,8 @@ public class TextDisplayManagerBehavior : MonoBehaviour
 
     void UserBeginSession()
     {
-        if (Event.current.Equals(Event.KeyboardEvent("return")))
+        Event e = Event.current;
+        if (e.Equals(Event.KeyboardEvent("return")))
         {
             // TODO: reset sentence
             textInputField.Select();
@@ -66,6 +68,9 @@ public class TextDisplayManagerBehavior : MonoBehaviour
             
             timer.Reset();
             timer.Start();
+        } else if (e.type == EventType.KeyDown && e.keyCode == KeyCode.Escape)
+        {
+            SceneManager.LoadScene("Scenes/HomeScene");
         }
     }
     
@@ -79,7 +84,7 @@ public class TextDisplayManagerBehavior : MonoBehaviour
         Double interval = timer.Elapsed.TotalSeconds;
         Double wpm = Math.Round(correctWordCount / interval * 60, 2);
         Double accuracy = Math.Round((Double)correctWordCount / sentence.Length, 4) * 100 ;
-        primaryLabel.text = "Press enter for a new session!";
+        primaryLabel.text = "Press ENTER for new session, or ESC for home!";
         primaryLabel.color = Color.green;
         secondaryLabel.text = $"wpm: {wpm}, accuracy: {accuracy}%";
     }

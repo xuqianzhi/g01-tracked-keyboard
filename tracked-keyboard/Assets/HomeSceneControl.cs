@@ -60,6 +60,6 @@ public class HomeSceneControl : MonoBehaviour
 
     public void LoadVisualSupportScene()
     {
-        // TODO: load visual support scene
+        SceneManager.LoadScene("Scenes/VisualSupportScene");
     }
 }

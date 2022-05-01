@@ -676,7 +676,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 
+  m_Text: 'or ESC to return to home scene
+
+'
 --- !u!222 &528999908
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -741,7 +743,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Press enter to begin
+  m_Text: Press ENTER to begin
 --- !u!222 &799799133
 CanvasRenderer:
   m_ObjectHideFlags: 0
