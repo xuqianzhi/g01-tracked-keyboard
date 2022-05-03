@@ -59,7 +59,7 @@ class App extends Component {
   userBeginSession() {
     const generateSentence = () => {
       const result = [];
-      for (let i = 0; i < 70; i++) {
+      for (let i = 0; i < 50; i++) {
         result.push(words[Math.floor(Math.random() * words.length)]);
       }
       return result;

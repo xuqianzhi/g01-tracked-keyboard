@@ -32,7 +32,7 @@ const words =
         "minty", "fresh", "foot", "drought", "planet", "invisible", "quote", "barely", "killing", "storied", "dress",
         "helmets", "citizen", "growth", "along", "tenor", "half", "snot", "forlorn", "ruler", "torn", "front",
         "rained", "cover", "felt", "pawned", "meadow", "watch", "desire", "faith", "owner", "justice", "haunts",
-        "civilized", "mushy", "lewdly", "doorway", "hop", "manly", "flew", "expose", "imagery", "beaver", "lead",
+        "civilized", "mushy", "doorway", "hop", "manly", "flew", "expose", "imagery", "beaver", "lead",
         "kissed", "cloud", "velvet", "proof", "canvas", "foot", "subordinate", "beverage", "albeit", "life", "raged",
         "saxophone", "waves", "hermit", "upright", "flames", "frost", "foes", "none", "coward", "sword", "marched",
         "mantle", "conform", "denied", "pins", "foes", "cannot", "hiking", "identify", "valor", "cruel",
