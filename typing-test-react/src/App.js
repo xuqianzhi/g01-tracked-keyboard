@@ -1,174 +1,195 @@
-import {useState, useEffect, useRef} from 'react'
+import { Component, createRef } from "react";
+import {
+  TextField,
+  Typography,
+  Stack,
+  Button,
+  ThemeProvider,
+} from "@mui/material";
+import { alpha, styled } from "@mui/material/styles";
+import { createTheme } from "@mui/material/styles";
 
-// SENTENCES TO DISPLAY, pulled from mem4.txt on https://www.keithv.com/software/enronmobile/mem4.txt 
-const sentences =[
-  ["you", "have", "a", "nice", "holiday", "too"],
-  [ "we", "need", "to", "talk", "about", "this", "month"]
-]
+const sentences = [
+  "you",
+  "have",
+  "a",
+  "nice",
+  "holiday",
+  "too",
+  "we",
+  "need",
+  "to",
+  "talk",
+  "about",
+  "this",
+  "month",
+];
 
-const SECONDS = 60
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#414DBB",
+    },
+    secondary: {
+      main: "#21C166",
+    },
+    background: {
+      main: "#F2EFE7",
+    },
+  },
+});
 
-function App() {
-  const [words, setWords] = useState([])
-  const [countDown, setCountDown] = useState(SECONDS)
-  const [currInput, setCurrInput] = useState("")
-  const [currWordIndex, setCurrWordIndex] = useState(0)
-  const [currCharIndex, setCurrCharIndex] = useState(-1)
-  const [currChar, setCurrChar] = useState("")
-  const [correct, setCorrect] = useState(0)
-  const [incorrect, setIncorrect] = useState(0)
-  const [status, setStatus] = useState("waiting")
-  const textInput = useRef(null)
+const ButtonStyled = styled(Button)(({ theme }) => ({
+  color: "white",
+  margin: 8,
+  width: "180px",
+  height: "60px",
+  borderRadius: "45px",
+  background: theme.palette.primary.main,
+  "&:hover": {
+    background: theme.palette.secondary.main,
+  },
+  textTransform: "none",
+  fontSize: "17px",
+}));
 
-  useEffect(() => {
-    setWords(generateWords())
-  }, [])
-
-  useEffect(() => {
-    if (status === 'started') {
-      textInput.current.focus()
-    }
-  }, [status])
-
-  function generateWords() {
-    // flatten on second dimension
-    // if you want to preserve individual "sentences", do not flatten 
-    console.log("sentences are", sentences.flat(2))
-    return sentences.flat(2);
+class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      wordPointer: 0,
+      didSessionBegin: false,
+      startTime: null,
+      correctCount: 0,
+      primaryLabel: "Press START to begin session",
+      secondaryLabel: "",
+    };
+    this.inputField = createRef();
+    this.userBeginSession = this.userBeginSession.bind(this);
+    this.userCompleteSession = this.userCompleteSession.bind(this);
+    this.handleKeyDown = this.handleKeyDown.bind(this);
+    this.onTextFieldChange = this.onTextFieldChange.bind(this);
   }
 
-  function start() {
-
-    if (status === 'finished') {
-      setWords(generateWords())
-      setCurrWordIndex(0)
-      setCorrect(0)
-      setIncorrect(0)
-      setCurrCharIndex(-1)
-      setCurrChar("")
-    }
-
-    if (status !== 'started') {
-      setStatus('started')
-      let interval = setInterval(() => {
-        setCountDown((prevCountDown) => {
-          console.log("currcharidx is", currCharIndex)
-          if (prevCountDown === 0) {
-            clearInterval(interval)
-            setStatus('finished')
-            setCurrInput("")
-            return SECONDS
-          } else {
-            return prevCountDown - 1
-          }
-        }  )
-      } ,  1000 )
-    }
-    
-  }
-
-  function handleKeyDown({keyCode, key}) {
-    // space bar 
-    if (keyCode === 32) {
-      checkMatch()
-      setCurrInput("")
-      setCurrWordIndex(currWordIndex + 1)
-      setCurrCharIndex(-1)
-    // backspace
-    } else if (keyCode === 8) {
-      setCurrCharIndex(currCharIndex - 1)
-      setCurrChar("")
-    } else {
-      setCurrCharIndex(currCharIndex + 1)
-      setCurrChar(key)
-    }
-  }
-
-  function checkMatch() {
-    const wordToCompare = words[currWordIndex]
-    const doesItMatch = wordToCompare === currInput.trim()
-    if (doesItMatch) {
-      setCorrect(correct + 1)
-    } else {
-      setIncorrect(incorrect + 1)
-    }
-  }
-
-  function getCharClass(wordIdx, charIdx, char) {
-    if (wordIdx === currWordIndex && charIdx === currCharIndex && currChar && status !== 'finished') {
-      if (char === currChar) {
-        return 'has-background-success'
-      } else {
-        return 'has-background-danger'
+  userBeginSession() {
+    const generateSentence = () => {
+      const result = [];
+      for (let i = 0; i < 10; i++) {
+        result.push(sentences[Math.floor(Math.random() * sentences.length)]);
       }
-    } else if (wordIdx === currWordIndex && currCharIndex >= words[currWordIndex].length) {
-      return 'has-background-danger'
-    } else {
-      return ''
+      return result;
+    };
+    const currSentence = generateSentence();
+    this.currSentence = currSentence;
+    this.setState({
+      wordPointer: 0,
+      correctCount: 0,
+      didSessionBegin: true,
+      startTime: new Date(),
+      primaryLabel: currSentence[0],
+      secondaryLabel: "",
+      inputStatus: "success",
+    });
+  }
+
+  userCompleteSession() {
+    this.setState({
+      didSessionBegin: false,
+    });
+  }
+
+  handleKeyDown({ keyCode, key }) {
+    if (keyCode === 32) {
+      // space bar
+      const userInput = this.inputField.current.value;
+
+      this.inputField.current.value = "";
     }
   }
 
+  onTextFieldChange(input) {
+    const isPrefix = (shortWord, longWord) => {
+      // check if short word is prefix of long word
+      if (longWord.length < shortWord.length) {
+        return false;
+      }
+      for (let i = 0; i < shortWord.length; i++) {
+        const c1 = longWord.charAt(i);
+        const c2 = shortWord.charAt(i);
+        if (c1 != c2) {
+          return false;
+        }
+      }
+      return true;
+    };
 
-  return (
-    <div className="App">
-      <div className="section">
-        <div className="is-size-1 has-text-centered has-text-primary">
-          <h2>{countDown}</h2>
-        </div>
-      </div>
-      <div className="control is-expanded section">
-        <input ref={textInput} disabled={status !== "started"} type="text" className="input" onKeyDown={handleKeyDown} value={currInput} onChange={(e) => setCurrInput(e.target.value)}  />
-      </div>
-      <div className="section">
-        <button className="button is-info is-fullwidth" onClick={start}>
-          Start
-        </button>
-      </div>
-      {status === 'started' && (
-        <div className="section" >
-          <div className="card">
-            <div className="card-content">
-              <div className="content">
-                {words.map((word, i) => (
-                  <span key={i}>
-                    <span>
-                      {word.split("").map((char, idx) => (
-                        <span className={getCharClass(i, idx, char)} key={idx}>{char}</span>
-                      )) }
-                    </span>
-                    <span> </span>
-                  </span>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-      {status === 'finished' && (
-        <div className="section">
-          <div className="columns">
-            <div className="column has-text-centered">
-              <p className="is-size-5">Words per minute:</p>
-              <p className="has-text-primary is-size-1">
-                {correct}
-              </p>
-            </div>
-            <div className="column has-text-centered">
-              <p className="is-size-5">Accuracy:</p>
-              {correct !== 0 ? (
-                <p className="has-text-info is-size-1">
-                  {Math.round((correct / (correct + incorrect)) * 100)}%
-                </p>
-              ) : (
-                <p className="has-text-info is-size-1">0%</p>
-              )}
-            </div>
-          </div>
-        </div>
-      )}
+    const currSentence = this.currSentence;
+    const wordPointer = this.state.wordPointer;
+    const target = currSentence[wordPointer];
+    
+    if (isPrefix(input, target)) {
+      this.setState({inputStatus: "success"});
+    } else {
+      this.setState({inputStatus: "error"});
+    }
+  }
 
-    </div>
-  );
+  render() {
+    const {
+      wordPointer,
+      didSessionBegin,
+      startTime,
+      correctCount,
+      primaryLabel,
+      secondaryLabel,
+      inputStatus
+    } = this.state;
+    return (
+      <ThemeProvider theme={theme}>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+          }}
+        >
+          <Stack
+            sx={{
+              width: "50vw",
+              height: "80vh",
+              direction: "column",
+              alignItems: "center",
+              marginTop: "300px",
+            }}
+          >
+            <Typography variant="h4" margin={"30px"} marginBottom="0px">
+              {primaryLabel}
+            </Typography>
+            <Typography variant="h4" margin={"30px"}>
+              {secondaryLabel}
+            </Typography>
+            <TextField
+              color={inputStatus}
+              fullWidth
+              variant="filled"
+              rows={1}
+              onKeyDown={this.handleKeyDown}
+              disabled={!didSessionBegin}
+              inputRef={this.inputField}
+              onChange={(e) => this.onTextFieldChange(e.target.value)}
+            />
+            <ButtonStyled
+              disabled={didSessionBegin}
+              onClick={this.userBeginSession}
+              marginTop={"50px"}
+            >
+              Start
+            </ButtonStyled>
+          </Stack>
+        </div>
+      </ThemeProvider>
+    );
+  }
 }
 
 export default App;
