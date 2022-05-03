@@ -91,7 +91,7 @@ public class TextDisplayManagerBehavior : MonoBehaviour
         }
 
         double wordCount = letterCount / 5;
-        Double wpm = Math.Round(wordCount / (interval / 60 / 1000), 2);
+        Double wpm = Math.Round(wordCount / (interval / 60), 2);
         Double accuracy = Math.Round((Double) correctWordCount / sentence.Length, 4) * 100;
         primaryLabel.text = "Press ENTER for new session, or ESC for home!";
         primaryLabel.color = Color.green;
