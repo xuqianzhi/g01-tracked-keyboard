@@ -8,22 +8,7 @@ import {
 } from "@mui/material";
 import { alpha, styled } from "@mui/material/styles";
 import { createTheme } from "@mui/material/styles";
-
-const sentences = [
-  "you",
-  "have",
-  "a",
-  "nice",
-  "holiday",
-  "too",
-  "we",
-  "need",
-  "to",
-  "talk",
-  "about",
-  "this",
-  "month",
-];
+import words from './words.js';
 
 const theme = createTheme({
   palette: {
@@ -74,8 +59,8 @@ class App extends Component {
   userBeginSession() {
     const generateSentence = () => {
       const result = [];
-      for (let i = 0; i < 10; i++) {
-        result.push(sentences[Math.floor(Math.random() * sentences.length)]);
+      for (let i = 0; i < 30; i++) {
+        result.push(words[Math.floor(Math.random() * words.length)]);
       }
       return result;
     };
@@ -89,6 +74,8 @@ class App extends Component {
       primaryLabel: currSentence[0],
       secondaryLabel: "",
       inputStatus: "success",
+    }, () => {
+      this.inputField.current.focus();
     });
   }
 
@@ -101,9 +88,38 @@ class App extends Component {
   handleKeyDown({ keyCode, key }) {
     if (keyCode === 32) {
       // space bar
-      const userInput = this.inputField.current.value;
-
+      let userInput = this.inputField.current.value;
+      userInput = userInput.replace(/\s/g, '');
       this.inputField.current.value = "";
+      let { wordPointer, correctCount } = this.state;
+      const currSentence = this.currSentence;
+      const target = currSentence[wordPointer];
+      if (userInput === target) {
+        console.log("correct");
+        correctCount += 1;
+      }
+      if (wordPointer + 1 < currSentence.length) {
+        // session continue
+        this.setState({
+          primaryLabel: currSentence[wordPointer + 1],
+          wordPointer: wordPointer + 1,
+          correctCount: correctCount,
+          inputStatus: "success"
+        });
+      } else {
+        // session ended
+        const startTime = this.state.startTime;
+        const endTime = new Date();
+        const interval = endTime - startTime; //in ms
+        let numChar = 0;
+        for (const word of currSentence) {
+          numChar += word.length;
+        }
+        const wpm = ((numChar / 5) / (interval / 1000) * 60) | 0;
+        const accuracy = (correctCount / currSentence.length).toFixed(2) * 100;
+        const secondaryLabel = `wpm: ${wpm}, accuracy: ${accuracy}%`
+        this.setState({ didSessionBegin: false, primaryLabel: "Press START to restart", secondaryLabel: secondaryLabel });
+      }
     }
   }
 
@@ -122,15 +138,17 @@ class App extends Component {
       }
       return true;
     };
+    input = input.replace(/\s/g, '');
 
     const currSentence = this.currSentence;
     const wordPointer = this.state.wordPointer;
     const target = currSentence[wordPointer];
-    
+    console.log(input, target);
+
     if (isPrefix(input, target)) {
-      this.setState({inputStatus: "success"});
+      this.setState({ inputStatus: "success" });
     } else {
-      this.setState({inputStatus: "error"});
+      this.setState({ inputStatus: "error" });
     }
   }
 
@@ -173,7 +191,7 @@ class App extends Component {
               fullWidth
               variant="filled"
               rows={1}
-              onKeyDown={this.handleKeyDown}
+              onKeyUp={this.handleKeyDown}
               disabled={!didSessionBegin}
               inputRef={this.inputField}
               onChange={(e) => this.onTextFieldChange(e.target.value)}
@@ -181,7 +199,7 @@ class App extends Component {
             <ButtonStyled
               disabled={didSessionBegin}
               onClick={this.userBeginSession}
-              marginTop={"50px"}
+              sx={{ marginTop: '50px' }}
             >
               Start
             </ButtonStyled>
