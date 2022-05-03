@@ -115,7 +115,7 @@ class App extends Component {
         for (const word of currSentence) {
           numChar += word.length;
         }
-        const wpm = ((numChar / 5) / (interval / 1000) * 60) | 0;
+        const wpm = ((numChar / 5) / (interval / 1000 / 60)).toFixed(2);
         const accuracy = (correctCount / currSentence.length).toFixed(2) * 100;
         const secondaryLabel = `wpm: ${wpm}, accuracy: ${accuracy}%`
         this.setState({ didSessionBegin: false, primaryLabel: "Press START to restart", secondaryLabel: secondaryLabel });

@@ -82,7 +82,14 @@ public class TextDisplayManagerBehavior : MonoBehaviour
         
         timer.Stop();
         Double interval = timer.Elapsed.TotalSeconds;
-        Double wpm = Math.Round(correctWordCount / interval * 60, 2);
+        int letterCount = 0;
+        foreach (string word in sentence)
+        {
+            letterCount += word.Length;
+        }
+
+        double wordCount = letterCount / 5;
+        Double wpm = Math.Round(wordCount / (interval / 60 / 1000), 2);
         Double accuracy = Math.Round((Double)correctWordCount / sentence.Length, 4) * 100 ;
         primaryLabel.text = "Press ENTER for new session, or ESC for home!";
         primaryLabel.color = Color.green;
@@ -189,12 +196,12 @@ public class TextDisplayManagerBehavior : MonoBehaviour
     {
         string[] words = new string[]
         {
-            "naples", "stord", "gnaw", "lapmy", "oath", "saw", "fixed", "notein", "trust", "buys", "outking", "founts",
+            "apples", "stored", "gnaw", "lap", "oath", "saw", "fixed", "note", "trust", "buys", "outking", "founts",
             "splits", "woo", "maker", "namebut", "scoured", "sayt", "offend", "choose", "ship", "dark", "passd",
             "cavil", "denayd", "others", "wheeli", "long", "wondred", "erst", "lordyou", "shown", "made", "whelps",
             "wooden", "ruld", "rascal", "putting", "dismayd", "graced", "injurd", "soulin", "bigger", "severed", "sat",
             "base", "highand", "thenand", "mould", "himis", "straw", "bondage", "woes", "crammd", "famous", "foolish",
-            "surgeon", "replete", "sinyea", "blazing", "action", "powrful", "loppd", "scard", "foemans", "turret",
+            "surgeon", "replete", "sinyea", "blazing", "action", "powerful", "loppd", "scard", "foemans", "turret",
             "hearing", "sonwhom", "cull", "gone", "maine", "cousins", "surly", "wail", "life", "tears", "feature",
             "southam", "tookem", "glass", "eyethe", "twain", "rolling", "fearmy", "hapif", "bandy", "gulf", "chafed",
             "asaph", "hideous", "themthe", "item", "rogue", "toasted", "control", "mansay", "yearsof", "shadowi",
