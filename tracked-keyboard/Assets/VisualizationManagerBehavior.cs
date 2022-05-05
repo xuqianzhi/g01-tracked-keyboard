@@ -39,7 +39,7 @@ public class VisualizationManagerBehavior : MonoBehaviour
         Image img = key.GetComponent<Image>();
         Color old = img.color;
         img.color = Color.cyan;
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.1f);
         img.color = old;
     }
 }
