@@ -1711,33 +1711,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e19bd12fcadf4af0b71ae0caeb2357f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  keys:
-  - {fileID: 477743771}
-  - {fileID: 1575060427}
-  - {fileID: 1641656086}
-  - {fileID: 422839158}
-  - {fileID: 1758615679}
-  - {fileID: 1216756045}
-  - {fileID: 1734050930}
-  - {fileID: 2015301124}
-  - {fileID: 311619246}
-  - {fileID: 942819585}
-  - {fileID: 811621836}
-  - {fileID: 946494200}
-  - {fileID: 434341132}
-  - {fileID: 287454137}
-  - {fileID: 737966764}
-  - {fileID: 2061392697}
-  - {fileID: 1911987120}
-  - {fileID: 1142836986}
-  - {fileID: 234876950}
-  - {fileID: 582270386}
-  - {fileID: 65598676}
-  - {fileID: 390309826}
-  - {fileID: 1251438553}
-  - {fileID: 980593971}
-  - {fileID: 1181500559}
-  - {fileID: 1241484571}
+  keyQ: {fileID: 477743771}
+  keyW: {fileID: 1575060427}
+  keyE: {fileID: 1641656086}
+  keyR: {fileID: 422839158}
+  keyT: {fileID: 1758615679}
+  keyY: {fileID: 1216756045}
+  keyU: {fileID: 1734050930}
+  keyI: {fileID: 2015301124}
+  keyO: {fileID: 1241484571}
+  keyP: {fileID: 311619246}
+  keyA: {fileID: 1911987120}
+  keyS: {fileID: 1142836986}
+  keyD: {fileID: 234876950}
+  keyF: {fileID: 582270386}
+  keyG: {fileID: 65598676}
+  keyH: {fileID: 390309826}
+  keyJ: {fileID: 1251438553}
+  keyK: {fileID: 980593971}
+  keyL: {fileID: 1181500559}
+  keyZ: {fileID: 942819585}
+  keyX: {fileID: 811621836}
+  keyC: {fileID: 946494200}
+  keyV: {fileID: 434341132}
+  keyB: {fileID: 287454137}
+  keyN: {fileID: 737966764}
+  keyM: {fileID: 2061392697}
 --- !u!4 &538054634
 Transform:
   m_ObjectHideFlags: 0
