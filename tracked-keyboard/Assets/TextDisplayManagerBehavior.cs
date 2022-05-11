@@ -117,7 +117,9 @@ public class TextDisplayManagerBehavior : MonoBehaviour
         if (state == WordInputState.SessionCompleted) return;
 
         Event currEvent = Event.current;
-        if (state != WordInputState.Empty && currEvent.Equals(Event.KeyboardEvent("space")))
+        // if (state != WordInputState.Empty && currEvent.Equals(Event.KeyboardEvent("space")))
+        if (state != WordInputState.Empty && 
+            (currEvent.type == EventType.KeyDown && currEvent.keyCode == KeyCode.Space))
         {
             // user finished typing the current word
 
